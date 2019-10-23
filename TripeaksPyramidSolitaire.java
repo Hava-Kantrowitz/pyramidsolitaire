@@ -1,31 +1,21 @@
 package cs3500.pyramidsolitaire.model.hw04;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import cs3500.pyramidsolitaire.model.hw02.Card;
-import cs3500.pyramidsolitaire.model.hw02.PyramidSolitaireModel;
 
 /**
  * Class that models the tripeaks pyramid solitaire gameboard.
  */
-public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
-
-  private String[] suit = {"Spades", "Hearts", "Diamonds", "Clubs"};
-  private ArrayList<Card> myDeck = new ArrayList<Card>();
-  private ArrayList<Card> myDeck2 = new ArrayList<Card>();
-  private ArrayList<Card> drawDeck = new ArrayList<Card>();
-  private Card[][] gameBoard;
-  private int gameScore;
-  private boolean gameStarted = false;
+public class TripeaksPyramidSolitaire extends AbstractPyramidSolitaire {
 
   /**
    * Creates a playable instance of the pyramid solitaire game.
    */
   public TripeaksPyramidSolitaire() {
-    //sets the score to 0
-    this.gameScore = 0;
+    super();
   }
 
   @Override
@@ -55,19 +45,83 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
     //if the deck itself is valid and the parameters are valid, keep going
 
     if (isValid(deck) && isValidParams(numRows, numDraw)) {
-      //initialize the gameboard
-      gameBoard = new Card[numRows][numRows];
-      myDeck = new ArrayList<>(deck);
+      //figure out the length of first row based on number of rows
+      int firstRowLen = (numRows + 1) - (numRows % 2);
 
+      //initialize game board
+      gameBoard = new Card[numRows][firstRowLen + numRows - 1];
+      myDeck = new ArrayList<>(deck);
 
       //if shuffle is requested, shuffle it
       if (shouldShuffle) {
         Collections.shuffle(myDeck);
       }
 
-      //Loops through each row and card
-      for (int i = 0; i < numRows; i++) {
-        for (int j = 0; j <= i; j++) {
+      //figure out where the half height occurs
+      int halfHeight = (int) Math.ceil(numRows / 2);
+
+      //figure out the number of nulls in each section of the first row
+      int firstRowNulls = ((numRows - 2) - (numRows % 2)) / 2;
+
+      //the number of numbers in each section of the first row
+      int firstRowNums = 1;
+
+      //for the first half the pyramid, where they don't overlap
+      for (int i = 0; i < halfHeight; i++) {
+
+        //do the first group of numbers
+        for (int j = 0; j < firstRowNums; j++) {
+          //put the card into the game board
+          gameBoard[i][j] = myDeck.get(0);
+          //increment the game score
+          gameScore += gameBoard[i][j].getValue();
+          //remove the card from the main deck
+          myDeck.remove(0);
+        }
+
+        int combined = firstRowNums + firstRowNulls;
+
+        //then the first group of nulls
+        for (int j = firstRowNums + 1; j < combined; j++) {
+          gameBoard[i][j] = null;
+        }
+
+        //then the second group of numbers
+        for (int j = combined; j < combined + firstRowNums; j++) {
+          //put the card into the game board
+          gameBoard[i][j] = myDeck.get(0);
+          //increment the game score
+          gameScore += gameBoard[i][j].getValue();
+          //remove the card from the main deck
+          myDeck.remove(0);
+        }
+
+        int combined2 = combined + firstRowNums;
+
+        //then the second group of nulls
+        for (int j = combined2; j < combined2 + firstRowNulls; j++) {
+          gameBoard[i][j] = null;
+        }
+
+        //then the last group of numbers
+        for (int j = combined2 + firstRowNulls; j < combined2 + firstRowNulls + firstRowNums; j++) {
+          //put the card into the game board
+          gameBoard[i][j] = myDeck.get(0);
+          //increment the game score
+          gameScore += gameBoard[i][j].getValue();
+          //remove the card from the main deck
+          myDeck.remove(0);
+        }
+
+        //before going to the next row, increase the number of numbers
+        //and decrease the number of nulls
+        firstRowNums++;
+        firstRowNulls--;
+      }
+
+      //loop through the combined half the pyramid
+      for (int i = halfHeight; i < numRows; i++) {
+        for (int j = 0; j < firstRowLen + i; j++) {
           //put the card into the game board
           gameBoard[i][j] = myDeck.get(0);
           //increment the game score
@@ -90,8 +144,7 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
     } else {
       if (!isValid(myDeck)) {
         throw new IllegalArgumentException("Deck not valid");
-      }
-      else if (!isValidParams(numRows, numDraw)) {
+      } else if (!isValidParams(numRows, numDraw)) {
         throw new IllegalArgumentException("Parameters not valid");
       }
       throw new IllegalArgumentException("Starting params illegal");
@@ -108,7 +161,7 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
    * @param numDraw the starting parameter of draw cards
    * @return True if the parameters are valid, false otherwise
    */
-  private boolean isValidParams(int numRows, int numDraw) {
+  protected boolean isValidParams(int numRows, int numDraw) {
     //Assume it is true
     boolean isValid = true;
     //If any params are invalid, return false
@@ -133,7 +186,7 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
    * @param deck The deck to determine validity
    * @return True if deck is valid, false otherwise
    */
-  private boolean isValid(List<Card> deck) {
+  protected boolean isValid(List<Card> deck) {
     //Assume true
     boolean isValid = true;
 
@@ -166,147 +219,38 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
    * @param card the column of the card under consideration
    * @return true if the card can be removed, false otherwise
    */
-  private boolean canRemove(int row, int card) {
-    //If the card is in the final row, it is automatically unexposed
-    if (row == gameBoard.length - 1) {
-      return true;
-    }
-
-    //Return whether the card below isn't there
-    if ((getCardAt(row + 1, card) != null)) {
-      return false;
-    }
-    else if (getCardAt(row + 1, card + 1) != null) {
-      return false;
-    }
-    return true;
+  protected boolean canRemove(int row, int card) {
+    return super.canRemove(row, card);
   }
 
   @Override
   public void remove(int row1, int card1, int row2, int card2) throws IllegalStateException {
-
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-
-    //If either card doesn't exist, illegal inputs
-    Card firstCard = getCardAt(row1, card1);
-    Card secondCard = getCardAt(row2, card2);
-    if (firstCard == null || secondCard == null) {
-      throw new IllegalArgumentException();
-    }
-
-    //get the value of each card
-    int val1 = firstCard.getValue();
-    int val2 = secondCard.getValue();
-
-    //if the values equal 13 and both can be removed
-    if ((val1 + val2) == 13 && canRemove(row1, card1) && canRemove(row2, card2)) {
-      //Decrease the score, set both positions to null
-      gameScore -= val1 + val2;
-      gameBoard[row1][card1] = null;
-      gameBoard[row2][card2] = null;
-    } else {
-      throw new IllegalArgumentException();
-    }
-
-
+    super.remove(row1, card1, row2, card2);
   }
 
   @Override
   public void remove(int row, int card) throws IllegalStateException {
-
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-
-    //if card doesn't exist, illegal argument
-    if (getCardAt(row, card) == null) {
-      throw new IllegalArgumentException();
-    }
-
-    //get the card value
-    int cardVal = gameBoard[row][card].getValue();
-
-    //if the value is 13 and it can be removed
-    if (cardVal == 13 && canRemove(row, card)) {
-      //decrease score, remove from pyramid
-      gameBoard[row][card] = null;
-      gameScore -= cardVal;
-    } else {
-      throw new IllegalArgumentException();
-    }
-
-
+    super.remove(row, card);
   }
 
   @Override
   public void removeUsingDraw(int drawIndex, int row, int card) throws IllegalStateException {
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-
-    if (drawIndex > drawDeck.size() - 1 || drawIndex < 0 || getCardAt(row, card) == null) {
-      if (drawIndex < 0) {
-        throw new IllegalArgumentException("draw index is less than 0");
-      }
-      if (drawIndex > drawDeck.size() - 1) {
-        throw new IllegalArgumentException("draw index is greater than the deck size");
-      }
-      throw new IllegalArgumentException("given card is null");
-    }
-
-    //get both values
-    int val1 = drawDeck.get(drawIndex).getValue();
-    int val2 = gameBoard[row][card].getValue();
-
-    if ((val1 + val2 == 13) && canRemove(row, card)) {
-      //Remove card from pyramid, remove from discard pile, decrease score
-      gameBoard[row][card] = null;
-      gameScore -= val2;
-      discardDraw(drawIndex);
-    }
-    else {
-      throw new IllegalArgumentException("val1: " + val1 + ", val2: " + val2);
-    }
-
+    super.removeUsingDraw(drawIndex, row, card);
   }
 
   @Override
   public void discardDraw(int drawIndex) throws IllegalStateException {
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-
-    if (drawIndex > drawDeck.size() - 1 || drawIndex < 0 || drawDeck.get(drawIndex) == null) {
-      throw new IllegalArgumentException();
-    }
-
-    //if the deck still has cards to draw from
-    if (myDeck.size() > 0) {
-      //add a card to the draw deck and remove it from the main deck
-      drawDeck.set(drawIndex, myDeck.remove(0));
-    } else {
-      drawDeck.set(drawIndex, null);
-    }
-
-
+    super.discardDraw(drawIndex);
   }
 
   @Override
   public int getNumRows() {
-    if (!hasGameStarted()) {
-      return -1;
-    }
-    return gameBoard.length;
+    return super.getNumRows();
   }
 
   @Override
   public int getNumDraw() {
-    if (!hasGameStarted()) {
-      return -1;
-    }
-    return drawDeck.size();
+    return super.getNumDraw();
   }
 
   @Override
@@ -322,17 +266,14 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
       throw new IllegalArgumentException();
     }
 
-    return row + 1;
+    int firstRowLen = (gameBoard.length + 1) - (gameBoard.length % 2);
+
+    return firstRowLen + row;
   }
 
   @Override
   public boolean isGameOver() throws IllegalStateException {
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-
-    //determines if the score is 0 or if there aren't any moves left
-    return (getScore() == 0 || !anyMovesLeft());
+    return super.isGameOver();
   }
 
   /**
@@ -340,94 +281,23 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
    *
    * @return true if moves are still possible, false otherwise
    */
-  private boolean anyMovesLeft() {
-
-    int nullCounter = 0;
-    for (int s = 0; s < getDrawCards().size(); s++) {
-      if (getDrawCards().get(s) == null) {
-        nullCounter++;
-      }
-    }
-
-    if (nullCounter != getDrawCards().size()) {
-      return true;
-    }
-
-    for (int i = 0; i < getNumRows(); i++) {
-      for (int j = 0; j < getRowWidth(i); j++) {
-        Card testCard = getCardAt(i, j);
-        if (testCard != null) {
-          if (canRemove(i,j) && testCard.getValue() == 13) {
-            return true;
-          }
-
-          for (Card s : drawDeck) {
-            if (s != null) {
-              if (canRemove(i, j) && s.getValue() + testCard.getValue() == 13) {
-                return true;
-              }
-            }
-          }
-        }
-
-        for (int k = 0; k < getNumRows(); k++) {
-          for (int r = 0; r < getRowWidth(k); r++) {
-            if (canRemove(i, j) && canRemove(k, r)) {
-              Card card1 = getCardAt(i, j);
-              Card card2 = getCardAt(k, r);
-              if (card1 != null && card2 != null) {
-                if (card1.getValue() + card2.getValue() == 13) {
-                  return true;
-                }
-              }
-
-            }
-          }
-        }
-      }
-    }
-
-    return false;
+  protected boolean anyMovesLeft() {
+    return super.anyMovesLeft();
   }
 
   @Override
   public int getScore() throws IllegalStateException {
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-    return gameScore;
+    return super.getScore();
   }
 
   @Override
   public Card getCardAt(int row, int card) throws IllegalStateException {
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-
-    if (row < 0 || card < 0 || row > getNumRows() - 1 || card > getNumRows() - 1) {
-      if (row < 0) {
-        throw new IllegalArgumentException("row less than 0");
-      }
-      if (card < 0) {
-        throw new IllegalArgumentException("card less than 0");
-      }
-      if (row > getNumRows() - 1) {
-        throw new IllegalArgumentException("row greater than numRows");
-      }
-      throw new IllegalArgumentException("something wrong with row" + " " + card);
-    }
-
-    return gameBoard[row][card];
+    return super.getCardAt(row, card);
   }
 
   @Override
   public List<Card> getDrawCards() throws IllegalStateException {
-    if (!hasGameStarted()) {
-      throw new IllegalStateException();
-    }
-    ArrayList<Card> drawCopy = new ArrayList<>();
-    drawCopy.addAll(drawDeck);
-    return drawCopy;
+    return super.getDrawCards();
   }
 
   /**
@@ -435,8 +305,8 @@ public class TripeaksPyramidSolitaire implements PyramidSolitaireModel<Card> {
    *
    * @return true if game has started, false otherwise
    */
-  private boolean hasGameStarted() {
-    return gameStarted;
+  protected boolean hasGameStarted() {
+    return super.hasGameStarted();
   }
 }
 

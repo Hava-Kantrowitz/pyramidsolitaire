@@ -3,11 +3,13 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.pyramidsolitaire.model.hw02.BasicPyramidSolitaire;
 import cs3500.pyramidsolitaire.model.hw02.Card;
+import cs3500.pyramidsolitaire.model.hw02.PyramidSolitaireModel;
+import cs3500.pyramidsolitaire.model.hw04.PyramidSolitaireCreator;
 import cs3500.pyramidsolitaire.view.PyramidSolitaireTextualView;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -15,10 +17,10 @@ import static org.junit.Assert.assertFalse;
  * This class tests the correctness of the BasicPyramidSolitaire model.
  */
 public class BasicPyramidSolitaireTest {
-  BasicPyramidSolitaire ex1;
+  private PyramidSolitaireModel ex1;
 
-  public void initData() {
-    ex1 = new BasicPyramidSolitaire();
+  private void initData() {
+    ex1 = PyramidSolitaireCreator.create(PyramidSolitaireCreator.GameType.BASIC);
   }
 
   //tests if get deck returns a 52 card deck
@@ -85,7 +87,7 @@ public class BasicPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), true, 2, 1);
     Card testCard = (Card) ex1.getDeck().get(0);
-    assertFalse(new Card("Spades", 5).equals(testCard));
+    assertNotEquals(new Card("Spades", 5), testCard);
   }
 
   //tests that deck is not shuffled when shuffled parameter is not asked for
@@ -94,7 +96,7 @@ public class BasicPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 2, 1);
     Card testCard = (Card) ex1.getDeck().get(4);
-    assertTrue(new Card("Spades", 5).equals(testCard));
+    assertEquals(new Card("Spades", 5), testCard);
   }
 
   //check that the gameboard has the correct number of rows

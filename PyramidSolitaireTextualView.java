@@ -14,6 +14,7 @@ public class PyramidSolitaireTextualView implements PyramidSolitaireView {
 
   /**
    * Constructs an instance of the textual view.
+   *
    * @param model the model to view
    */
   public PyramidSolitaireTextualView(PyramidSolitaireModel<?> model) {
@@ -23,8 +24,9 @@ public class PyramidSolitaireTextualView implements PyramidSolitaireView {
 
   /**
    * Constructs an instance of the textual view.
+   *
    * @param model the model to view
-   * @param ap the appendable to render to
+   * @param ap    the appendable to render to
    */
   public PyramidSolitaireTextualView(PyramidSolitaireModel<?> model, Appendable ap) {
     this.model = model;
@@ -52,11 +54,9 @@ public class PyramidSolitaireTextualView implements PyramidSolitaireView {
 
     int existingIndex = 1;
     for (int d = 0; d < model.getNumRows(); d++) {
-      if (d == model.getNumRows() - 1) {
-        for (int k = 0; k < model.getRowWidth(d); k++) {
-          if (model.getCardAt(d, k) != null) {
-            existingIndex = k;
-          }
+      for (int k = 0; k < model.getRowWidth(d); k++) {
+        if (model.getCardAt(d, k) != null) {
+          existingIndex = k;
         }
       }
     }
@@ -66,7 +66,7 @@ public class PyramidSolitaireTextualView implements PyramidSolitaireView {
       for (int h = model.getNumRows() - i; h > 1; h--) {
         result += "  ";
       }
-      for (int j = 0; j < model.getNumRows(); j++) {
+      for (int j = 0; j < model.getRowWidth(i); j++) {
         Card playingCard = (Card) model.getCardAt(i, j);
         if (playingCard == null && j < model.getRowWidth(i)) {
           if (j <= existingIndex) {
@@ -91,10 +91,7 @@ public class PyramidSolitaireTextualView implements PyramidSolitaireView {
 
 
             }
-          }
-
-
-          else {
+          } else {
             result += playingCard.toString();
           }
 

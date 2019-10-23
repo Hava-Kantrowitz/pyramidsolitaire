@@ -7,14 +7,17 @@ import java.util.List;
 import cs3500.pyramidsolitaire.model.hw02.Card;
 import cs3500.pyramidsolitaire.model.hw02.PyramidSolitaireModel;
 
-public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<Card> {
-  private String[] suit = {"Spades", "Hearts", "Diamonds", "Clubs"};
-  private ArrayList<Card> myDeck = new ArrayList<Card>();
-  private ArrayList<Card> myDeck2 = new ArrayList<Card>();
-  private ArrayList<Card> drawDeck = new ArrayList<Card>();
-  private Card[][] gameBoard;
-  private int gameScore;
-  private boolean gameStarted = false;
+/**
+ * Models the general pyramid solitaire game.
+ */
+public class AbstractPyramidSolitaire implements PyramidSolitaireModel<Card> {
+  protected String[] suit = {"Spades", "Hearts", "Diamonds", "Clubs"};
+  protected ArrayList<Card> myDeck = new ArrayList<Card>();
+  protected ArrayList<Card> myDeck2 = new ArrayList<Card>();
+  protected ArrayList<Card> drawDeck = new ArrayList<Card>();
+  protected Card[][] gameBoard;
+  protected int gameScore;
+  protected boolean gameStarted = false;
 
   /**
    * Creates a playable instance of the pyramid solitaire game.
@@ -101,7 +104,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
    * @param numDraw the starting parameter of draw cards
    * @return True if the parameters are valid, false otherwise
    */
-  private boolean isValidParams(int numRows, int numDraw) {
+  protected boolean isValidParams(int numRows, int numDraw) {
     //Assume it is true
     boolean isValid = true;
     //If any params are invalid, return false
@@ -126,7 +129,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
    * @param deck The deck to determine validity
    * @return True if deck is valid, false otherwise
    */
-  private boolean isValid(List<Card> deck) {
+  protected boolean isValid(List<Card> deck) {
     //Assume true
     boolean isValid = true;
 
@@ -157,7 +160,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
    * @param card the column of the card under consideration
    * @return true if the card can be removed, false otherwise
    */
-  private boolean canRemove(int row, int card) {
+  protected boolean canRemove(int row, int card) {
     //If the card is in the final row, it is automatically unexposed
     if (row == gameBoard.length - 1) {
       return true;
@@ -331,7 +334,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
    *
    * @return true if moves are still possible, false otherwise
    */
-  private boolean anyMovesLeft() {
+  protected boolean anyMovesLeft() {
 
     int nullCounter = 0;
     for (int s = 0; s < getDrawCards().size(); s++) {
@@ -395,7 +398,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
       throw new IllegalStateException();
     }
 
-    if (row < 0 || card < 0 || row > getNumRows() - 1 || card > getNumRows() - 1) {
+    if (row < 0 || card < 0 || row > getNumRows() - 1 || card > getRowWidth(row) - 1) {
       if (row < 0) {
         throw new IllegalArgumentException("row less than 0");
       }
@@ -405,6 +408,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
       if (row > getNumRows() - 1) {
         throw new IllegalArgumentException("row greater than numRows");
       }
+
       throw new IllegalArgumentException("something wrong with row" + " " + card);
     }
 
@@ -426,7 +430,7 @@ public abstract class AbstractPyramidSolitaire implements PyramidSolitaireModel<
    *
    * @return true if game has started, false otherwise
    */
-  private boolean hasGameStarted() {
+  protected boolean hasGameStarted() {
     return gameStarted;
   }
 }

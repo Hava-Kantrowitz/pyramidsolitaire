@@ -1,22 +1,21 @@
 import org.junit.Test;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
 
 import cs3500.pyramidsolitaire.controller.PyramidSolitaireController;
 import cs3500.pyramidsolitaire.controller.PyramidSolitaireTextualController;
-import cs3500.pyramidsolitaire.model.hw02.BasicPyramidSolitaire;
 import cs3500.pyramidsolitaire.model.hw02.Card;
 import cs3500.pyramidsolitaire.model.hw02.PyramidSolitaireModel;
+import cs3500.pyramidsolitaire.model.hw04.RelaxedPyramidSolitaire;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the controller.
  */
-public class PyramidSolitaireControllerTest {
+public class RelaxedPyramidSolitaireControllerTest {
 
   private static Interaction inputs(String in) {
     return (input, output) -> {
@@ -87,7 +86,7 @@ public class PyramidSolitaireControllerTest {
                     + "Draw: 3♦, 4♦\n"
                     + "Score: 172\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -127,7 +126,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 172\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -156,7 +155,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 5♦, 4♦\n" +
                     "Score: 175\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -185,7 +184,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 5♦, 4♦\n" +
                     "Score: 185\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -216,7 +215,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 185\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -247,7 +246,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 185\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -287,7 +286,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 172\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -328,7 +327,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 172\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -350,7 +349,7 @@ public class PyramidSolitaireControllerTest {
                     "Invalid move. Play again. Card position invalid.\n" +
                     "Invalid command. Please try again.\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -371,7 +370,7 @@ public class PyramidSolitaireControllerTest {
                     "Score: 185\n" +
                     "Invalid move. Play again. Card position invalid.\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -392,7 +391,7 @@ public class PyramidSolitaireControllerTest {
                     "Score: 185\n" +
                     "Invalid move. Play again. Card position invalid.\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -413,7 +412,7 @@ public class PyramidSolitaireControllerTest {
                     "Score: 185\n" +
                     "Invalid move. Play again. Card position invalid.\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -460,7 +459,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 146\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -492,7 +491,7 @@ public class PyramidSolitaireControllerTest {
                     "Invalid move. Play again. Input not a number.\n" +
                     "Invalid move. Play again. Card position invalid.\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -522,7 +521,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 5♦, 4♦\n" +
                     "Score: 175\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -543,7 +542,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 185\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -558,7 +557,7 @@ public class PyramidSolitaireControllerTest {
                     "Score: 13\n" +
                     "You win!\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     Card kingCard = deck.get(12);
     deck.remove(12);
@@ -576,7 +575,7 @@ public class PyramidSolitaireControllerTest {
                     "Score: 13\n" +
                     "You win!\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     Card kingCard = deck.get(12);
     deck.remove(12);
@@ -701,7 +700,7 @@ public class PyramidSolitaireControllerTest {
                     "Score: 268\n" +
                     "Game over. Score: 255\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 9, 5, interactions);
   }
@@ -730,7 +729,7 @@ public class PyramidSolitaireControllerTest {
                     "Draw: 3♦, 4♦\n" +
                     "Score: 172\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     List<Card> deck = model.getDeck();
     testRun(model, deck, false, 7, 2, interactions);
   }
@@ -762,105 +761,8 @@ public class PyramidSolitaireControllerTest {
                     "Invalid move. Play again. Input not a number.\n" +
                     "Invalid move. Play again. Card position invalid.\n")
     };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
+    PyramidSolitaireModel<Card> model = new RelaxedPyramidSolitaire();
     testRun(model, null, false, 7, 2, interactions);
   }
-
-  //test inputs for rm1
-  @Test
-  public void testInputsRm1() throws IOException {
-    Reader in = new StringReader("rm1 7 3");
-    StringBuilder dontCareOutput = new StringBuilder();
-    PyramidSolitaireTextualController controller =
-            new PyramidSolitaireTextualController(in, dontCareOutput);
-
-    StringBuilder log = new StringBuilder();
-    PyramidSolitaireModel<Card> testGame = new PyramidSolitaireMock(log);
-    List<Card> deck = testGame.getDeck();
-
-    controller.playGame(testGame, deck, false, 8, 4);
-    assertEquals("should shuffle = false, number rows = 8, number draw = 4\n"
-            + "card row = 6, card col = 2\n", log.toString());
-  }
-
-  //test inputs for rm2
-  @Test
-  public void testInputsRm2() throws IOException {
-    Reader in = new StringReader("rm2 7 3 5 4");
-    StringBuilder dontCareOutput = new StringBuilder();
-    PyramidSolitaireTextualController controller =
-            new PyramidSolitaireTextualController(in, dontCareOutput);
-
-    StringBuilder log = new StringBuilder();
-    PyramidSolitaireModel<Card> testGame = new PyramidSolitaireMock(log);
-    List<Card> deck = testGame.getDeck();
-
-    controller.playGame(testGame, deck, false, 8, 4);
-    assertEquals("should shuffle = false, number rows = 8, number draw = 4\n"
-            + "card 1 row = 6, card 1 col = 2, card 2 row = 4, card 2 col = 3\n", log.toString());
-  }
-
-  //test inputs for rmwd
-  @Test
-  public void testInputsRmwd() throws IOException {
-    Reader in = new StringReader("rmwd 7 3 5");
-    StringBuilder dontCareOutput = new StringBuilder();
-    PyramidSolitaireTextualController controller =
-            new PyramidSolitaireTextualController(in, dontCareOutput);
-
-    StringBuilder log = new StringBuilder();
-    PyramidSolitaireModel<Card> testGame = new PyramidSolitaireMock(log);
-    List<Card> deck = testGame.getDeck();
-
-    controller.playGame(testGame, deck, false, 8, 4);
-    assertEquals("should shuffle = false, number rows = 8, number draw = 4\n"
-            + "draw index = 6, card row = 2, card col = 4\n", log.toString());
-  }
-
-  //test inputs for dd
-  @Test
-  public void testInputsDd() throws IOException {
-    Reader in = new StringReader("dd 7");
-    StringBuilder dontCareOutput = new StringBuilder();
-    PyramidSolitaireTextualController controller =
-            new PyramidSolitaireTextualController(in, dontCareOutput);
-
-    StringBuilder log = new StringBuilder();
-    PyramidSolitaireModel<Card> testGame = new PyramidSolitaireMock(log);
-    List<Card> deck = testGame.getDeck();
-
-    controller.playGame(testGame, deck, false, 8, 4);
-    assertEquals("should shuffle = false, number rows = 8, number draw = 4\n"
-            + "draw index = 6\n", log.toString());
-  }
-
-  //tests illegal argument exception if readable is null
-  @Test(expected = IllegalArgumentException.class)
-  public void readableNull() throws IOException {
-    PyramidSolitaireTextualController nullReadable =
-            new PyramidSolitaireTextualController(null, new StringBuilder());
-  }
-
-  //tests illegal argument exception if appendable is null
-  @Test(expected = IllegalArgumentException.class)
-  public void appendableNull() throws IOException {
-    PyramidSolitaireTextualController nullAppendable =
-            new PyramidSolitaireTextualController(new StringReader(""), null);
-  }
-
-  //tests illegal argument exception if model is null
-  @Test(expected = IllegalArgumentException.class)
-  public void testModelNull() throws IOException {
-    Interaction[] interactions = {
-            inputs("rmwd 1 7 2"),
-            prints("hey")
-    };
-    PyramidSolitaireModel<Card> model = new BasicPyramidSolitaire();
-    List<Card> deck = model.getDeck();
-    testRun(null, deck, false, 7, 2, interactions);
-  }
-
-  //test playGame with relaxed
-  //test playGame with tripeaks
 
 }

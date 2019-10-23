@@ -4,21 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.pyramidsolitaire.model.hw02.Card;
-import cs3500.pyramidsolitaire.model.hw04.RelaxedPyramidSolitaire;
+import cs3500.pyramidsolitaire.model.hw02.PyramidSolitaireModel;
+import cs3500.pyramidsolitaire.model.hw04.PyramidSolitaireCreator;
 import cs3500.pyramidsolitaire.view.PyramidSolitaireTextualView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+
 /**
  * This class tests the correctness of the RelaxedPyramidSolitaire model.
  */
 public class RelaxedPyramidSolitaireTest {
-  RelaxedPyramidSolitaire ex1;
+  private PyramidSolitaireModel ex1;
 
-  public void initData() {
-    ex1 = new RelaxedPyramidSolitaire();
+  private void initData() {
+    ex1 = PyramidSolitaireCreator.create(PyramidSolitaireCreator.GameType.RELAXED);
   }
 
   //tests if get deck returns a 52 card deck
@@ -586,19 +588,19 @@ public class RelaxedPyramidSolitaireTest {
   //tests game over when no moves are left
   @Test
   public void gameOverNoMoves() {
-      initData();
-      ex1.startGame(ex1.getDeck(), false, 9, 5);
-      ex1.discardDraw(0);
-      ex1.discardDraw(1);
-      ex1.discardDraw(2);
-      ex1.discardDraw(0);
-      ex1.discardDraw(1);
-      ex1.discardDraw(3);
-      ex1.discardDraw(4);
-      ex1.remove(8, 2);
-      ex1.remove(8, 1, 8, 3);
-      ex1.remove(8, 0, 8, 4);
-      assertTrue(ex1.isGameOver());
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 9, 5);
+    ex1.discardDraw(0);
+    ex1.discardDraw(1);
+    ex1.discardDraw(2);
+    ex1.discardDraw(0);
+    ex1.discardDraw(1);
+    ex1.discardDraw(3);
+    ex1.discardDraw(4);
+    ex1.remove(8, 2);
+    ex1.remove(8, 1, 8, 3);
+    ex1.remove(8, 0, 8, 4);
+    assertTrue(ex1.isGameOver());
   }
 
   //tests that game is not over when no exposed cards add to 13 but card in draw pile adds to 13
@@ -734,7 +736,7 @@ public class RelaxedPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 7, 2);
     ex1.remove(6, 4);
-    ex1.removeUsingDraw(0,6,1);
+    ex1.removeUsingDraw(0, 6, 1);
     PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
     assertEquals("            A♠\n" +
             "          2♠  3♠\n" +
@@ -752,8 +754,8 @@ public class RelaxedPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 7, 2);
     ex1.remove(6, 4);
-    ex1.removeUsingDraw(0,6,1);
-    ex1.remove(6,2,6,6);
+    ex1.removeUsingDraw(0, 6, 1);
+    ex1.remove(6, 2, 6, 6);
     PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
     assertEquals("            A♠\n" +
             "          2♠  3♠\n" +

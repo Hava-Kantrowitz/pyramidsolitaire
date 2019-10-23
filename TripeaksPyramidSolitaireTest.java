@@ -4,21 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs3500.pyramidsolitaire.model.hw02.Card;
-import cs3500.pyramidsolitaire.model.hw04.TripeaksPyramidSolitaire;
+import cs3500.pyramidsolitaire.model.hw02.PyramidSolitaireModel;
+import cs3500.pyramidsolitaire.model.hw04.PyramidSolitaireCreator;
 import cs3500.pyramidsolitaire.view.PyramidSolitaireTextualView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+
 /**
  * This class tests the correctness of the TripeaksPyramidSolitaire model.
  */
 public class TripeaksPyramidSolitaireTest {
-  TripeaksPyramidSolitaire ex1;
+  private PyramidSolitaireModel ex1;
 
-  public void initData() {
-    ex1 = new TripeaksPyramidSolitaire();
+  private void initData() {
+    ex1 = PyramidSolitaireCreator.create(PyramidSolitaireCreator.GameType.TRIPEAKS);
   }
 
   //tests if get deck returns a 104 card deck
@@ -122,7 +124,7 @@ public class TripeaksPyramidSolitaireTest {
   public void startCorrectColsInRowBoard() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 2, 1);
-    assertEquals(2, ex1.getRowWidth(1));
+    assertEquals(4, ex1.getRowWidth(1));
 
   }
 
@@ -140,7 +142,7 @@ public class TripeaksPyramidSolitaireTest {
   public void startGameScoreCalculation() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 2, 1);
-    assertEquals(6, ex1.getScore());
+    assertEquals(28, ex1.getScore());
 
   }
 
@@ -202,8 +204,8 @@ public class TripeaksPyramidSolitaireTest {
   public void remove1ScoreUpdated() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 5, 1);
-    ex1.remove(4, 0, 4, 4);
-    assertEquals(81, ex1.getScore());
+    ex1.remove(4, 7, 4, 8);
+    assertEquals(197, ex1.getScore());
   }
 
   //tests that card1's position is now null
@@ -211,8 +213,8 @@ public class TripeaksPyramidSolitaireTest {
   public void remove1Card1Updated() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 5, 1);
-    ex1.remove(4, 0, 4, 4);
-    assertEquals(null, ex1.getCardAt(4, 0));
+    ex1.remove(4, 7, 4, 8);
+    assertEquals(null, ex1.getCardAt(4, 7));
   }
 
   //tests that card2's position is now null
@@ -220,8 +222,8 @@ public class TripeaksPyramidSolitaireTest {
   public void remove1Card2Updated() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 5, 1);
-    ex1.remove(4, 0, 4, 4);
-    assertEquals(null, ex1.getCardAt(4, 4));
+    ex1.remove(4, 7, 4, 8);
+    assertEquals(null, ex1.getCardAt(4, 8));
   }
 
   //throws exception when game isn't started
@@ -269,8 +271,8 @@ public class TripeaksPyramidSolitaireTest {
   public void remove2ScoreUpdated() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 5, 1);
-    ex1.remove(4, 2);
-    assertEquals(81, ex1.getScore());
+    ex1.remove(4, 1);
+    assertEquals(197, ex1.getScore());
   }
 
   //test that card's position is null
@@ -278,8 +280,8 @@ public class TripeaksPyramidSolitaireTest {
   public void remove2CardUpdated() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 5, 1);
-    ex1.remove(4, 2);
-    assertEquals(null, ex1.getCardAt(4, 2));
+    ex1.remove(4, 1);
+    assertEquals(null, ex1.getCardAt(4, 1));
   }
 
   //throws exception when game isn't started
@@ -333,18 +335,18 @@ public class TripeaksPyramidSolitaireTest {
   @Test
   public void drawRemoveUpdateScore() {
     initData();
-    ex1.startGame(ex1.getDeck(), false, 3, 1);
-    ex1.removeUsingDraw(0, 2, 2);
-    assertEquals(15, ex1.getScore());
+    ex1.startGame(ex1.getDeck(), false, 5, 1);
+    ex1.removeUsingDraw(0, 4, 6);
+    assertEquals(205, ex1.getScore());
   }
 
   //tests that card's position is now null
   @Test
   public void drawRemoveUpdateCard() {
     initData();
-    ex1.startGame(ex1.getDeck(), false, 3, 1);
-    ex1.removeUsingDraw(0, 2, 2);
-    assertEquals(null, ex1.getCardAt(2, 2));
+    ex1.startGame(ex1.getDeck(), false, 5, 1);
+    ex1.removeUsingDraw(0, 4, 6);
+    assertEquals(null, ex1.getCardAt(4, 6));
   }
 
   //throws exception when game hasn't started
@@ -376,7 +378,7 @@ public class TripeaksPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 3, 3);
     ex1.discardDraw(0);
-    assertEquals("10♠", ex1.getDrawCards().get(0).toString());
+    assertEquals("3♥", ex1.getDrawCards().get(0).toString());
   }
 
   //tests that card is added to drawDeck 45
@@ -385,7 +387,7 @@ public class TripeaksPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 3, 3);
     ex1.discardDraw(0);
-    assertEquals("9♠", ex1.getDrawCards().get(2).toString());
+    assertEquals("2♥", ex1.getDrawCards().get(2).toString());
   }
 
   //returns -1 when game isn't started
@@ -446,7 +448,7 @@ public class TripeaksPyramidSolitaireTest {
   public void rowWidthCorrect() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 3, 1);
-    assertEquals(2, ex1.getRowWidth(1));
+    assertEquals(4, ex1.getRowWidth(1));
   }
 
   //throws exception when game isn't started
@@ -454,33 +456,6 @@ public class TripeaksPyramidSolitaireTest {
   public void gameOverNotStarted() {
     initData();
     ex1.isGameOver();
-  }
-
-  //tests that game is over when score is 0
-  @Test
-  public void gameOverScore0() {
-    initData();
-    ex1.startGame(ex1.getDeck(), false, 3, 3);
-    ex1.removeUsingDraw(0, 2, 2);
-    assertFalse(ex1.isGameOver());
-  }
-
-  @Test
-  public void game1OverScore0() {
-    initData();
-    List<Card> myList = ex1.getDeck();
-    Card card1 = myList.get(0);
-    Card card2 = myList.get(1);
-    myList.set(0, card2);
-    myList.set(1, card1);
-    ex1.startGame(myList, false, 5, 3);
-    ex1.remove(4, 1, 4, 3);
-    ex1.remove(4,2);
-    ex1.removeUsingDraw(2, 3, 1);
-    ex1.removeUsingDraw(1, 3, 2);
-    ex1.remove(4, 0, 4, 4);
-    ex1.removeUsingDraw(0, 3, 3);
-    assertFalse(ex1.isGameOver());
   }
 
   //tests that game is not over when no exposed cards add to 13 but card in draw pile adds to 13
@@ -496,7 +471,6 @@ public class TripeaksPyramidSolitaireTest {
   public void gameNotOverMovesLeft() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 3, 3);
-    ex1.removeUsingDraw(0, 2, 2);
     assertFalse(ex1.isGameOver());
   }
 
@@ -512,7 +486,7 @@ public class TripeaksPyramidSolitaireTest {
   public void getScoreCorrect() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 3, 1);
-    assertEquals(21, ex1.getScore());
+    assertEquals(78, ex1.getScore());
   }
 
   //throws exception when game isn't started
@@ -551,7 +525,7 @@ public class TripeaksPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 2, 1);
     Card testCard = (Card) ex1.getDrawCards().get(0);
-    assertTrue(new Card("Spades", 4).equals(testCard));
+    assertFalse(new Card("Spades", 5).equals(testCard));
   }
 
   //test duplicates don't pass
@@ -582,14 +556,14 @@ public class TripeaksPyramidSolitaireTest {
     initData();
     ex1.startGame(ex1.getDeck(), false, 8, 2);
     PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
-    assertEquals("              A♠\n" +
-            "            2♠  3♠\n" +
-            "          4♠  5♠  6♠\n" +
-            "        7♠  8♠  9♠  10♠\n" +
-            "      J♠  Q♠  K♠  A♥  2♥\n" +
-            "    3♥  4♥  5♥  6♥  7♥  8♥\n" +
-            "  9♥  10♥ J♥  Q♥  K♥  A♦  2♦\n" +
-            "3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦\n" +
+    assertEquals("              A♠              2♠              3♠\n" +
+            "            4♠  5♠          6♠  7♠          8♠  9♠\n" +
+            "          10♠ J♠  Q♠      K♠  A♥  2♥      3♥  4♥  5♥\n" +
+            "        6♥  7♥  8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦  3♦  4♦\n" +
+            "      5♦  6♦  7♦  8♦  9♦  10♦ J♦  Q♦  K♦  A♣  2♣  3♣  4♣\n" +
+            "    5♣  6♣  7♣  8♣  9♣  10♣ J♣  Q♣  K♣  A♠  2♠  3♠  4♠  5♠\n" +
+            "  6♠  7♠  8♠  9♠  10♠ J♠  Q♠  K♠  A♥  2♥  3♥  4♥  5♥  6♥  7♥\n" +
+            "8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦  3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦\n" +
             "Draw: J♦, Q♦", t1.toString());
   }
 
@@ -598,16 +572,16 @@ public class TripeaksPyramidSolitaireTest {
   public void triangleAfterRemoval() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 7, 2);
-    ex1.remove(6, 4);
+    ex1.remove(6, 0);
     PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
-    assertEquals("            A♠\n" +
-            "          2♠  3♠\n" +
-            "        4♠  5♠  6♠\n" +
-            "      7♠  8♠  9♠  10♠\n" +
-            "    J♠  Q♠  K♠  A♥  2♥\n" +
-            "  3♥  4♥  5♥  6♥  7♥  8♥\n" +
-            "9♥  10♥ J♥  Q♥      A♦  2♦\n" +
-            "Draw: 3♦, 4♦", t1.toString());
+    assertEquals("            A♠          2♠          3♠\n" +
+            "          4♠  5♠      6♠  7♠      8♠  9♠\n" +
+            "        10♠ J♠  Q♠  K♠  A♥  2♥  3♥  4♥  5♥\n" +
+            "      6♥  7♥  8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦\n" +
+            "    3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦ J♦  Q♦  K♦\n" +
+            "  A♣  2♣  3♣  4♣  5♣  6♣  7♣  8♣  9♣  10♣ J♣  Q♣\n" +
+            "    A♠  2♠  3♠  4♠  5♠  6♠  7♠  8♠  9♠  10♠ J♠  Q♠\n" +
+            "Draw: K♠, A♥", t1.toString());
   }
 
   //test that triangle after removal by draw prints correctly
@@ -615,17 +589,17 @@ public class TripeaksPyramidSolitaireTest {
   public void triangleAfterRemovalByDraw() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 7, 2);
-    ex1.remove(6, 4);
-    ex1.removeUsingDraw(0,6,1);
+    ex1.discardDraw(1);
+    ex1.removeUsingDraw(1, 6, 11);
     PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
-    assertEquals("            A♠\n" +
-            "          2♠  3♠\n" +
-            "        4♠  5♠  6♠\n" +
-            "      7♠  8♠  9♠  10♠\n" +
-            "    J♠  Q♠  K♠  A♥  2♥\n" +
-            "  3♥  4♥  5♥  6♥  7♥  8♥\n" +
-            "9♥      J♥  Q♥      A♦  2♦\n" +
-            "Draw: 5♦, 4♦", t1.toString());
+    assertEquals("            A♠          2♠          3♠\n" +
+            "          4♠  5♠      6♠  7♠      8♠  9♠\n" +
+            "        10♠ J♠  Q♠  K♠  A♥  2♥  3♥  4♥  5♥\n" +
+            "      6♥  7♥  8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦\n" +
+            "    3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦ J♦  Q♦  K♦\n" +
+            "  A♣  2♣  3♣  4♣  5♣  6♣  7♣  8♣  9♣  10♣ J♣  Q♣\n" +
+            "K♣  A♠  2♠  3♠  4♠  5♠  6♠  7♠  8♠  9♠  10♠     Q♠\n" +
+            "Draw: K♠, 3♥", t1.toString());
   }
 
   //test that triangle after removal from pyramid prints correctly
@@ -633,18 +607,96 @@ public class TripeaksPyramidSolitaireTest {
   public void triangleAfterRemovalFromPyramid() {
     initData();
     ex1.startGame(ex1.getDeck(), false, 7, 2);
-    ex1.remove(6, 4);
-    ex1.removeUsingDraw(0,6,1);
-    ex1.remove(6,2,6,6);
+    ex1.remove(6, 6, 6, 7);
     PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
-    assertEquals("            A♠\n" +
-            "          2♠  3♠\n" +
-            "        4♠  5♠  6♠\n" +
-            "      7♠  8♠  9♠  10♠\n" +
-            "    J♠  Q♠  K♠  A♥  2♥\n" +
-            "  3♥  4♥  5♥  6♥  7♥  8♥\n" +
-            "9♥          Q♥      A♦\n" +
-            "Draw: 5♦, 4♦", t1.toString());
+    assertEquals("            A♠          2♠          3♠\n" +
+            "          4♠  5♠      6♠  7♠      8♠  9♠\n" +
+            "        10♠ J♠  Q♠  K♠  A♥  2♥  3♥  4♥  5♥\n" +
+            "      6♥  7♥  8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦\n" +
+            "    3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦ J♦  Q♦  K♦\n" +
+            "  A♣  2♣  3♣  4♣  5♣  6♣  7♣  8♣  9♣  10♣ J♣  Q♣\n" +
+            "K♣  A♠  2♠  3♠  4♠  5♠          8♠  9♠  10♠ J♠  Q♠\n" +
+            "Draw: K♠, A♥", t1.toString());
+  }
+
+  //test that triangle with 8 rows prints correctly
+  @Test
+  public void triangle8() {
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 8, 2);
+    PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
+    assertEquals("              A♠              2♠              3♠\n" +
+            "            4♠  5♠          6♠  7♠          8♠  9♠\n" +
+            "          10♠ J♠  Q♠      K♠  A♥  2♥      3♥  4♥  5♥\n" +
+            "        6♥  7♥  8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦  3♦  4♦\n" +
+            "      5♦  6♦  7♦  8♦  9♦  10♦ J♦  Q♦  K♦  A♣  2♣  3♣  4♣\n" +
+            "    5♣  6♣  7♣  8♣  9♣  10♣ J♣  Q♣  K♣  A♠  2♠  3♠  4♠  5♠\n" +
+            "  6♠  7♠  8♠  9♠  10♠ J♠  Q♠  K♠  A♥  2♥  3♥  4♥  5♥  6♥  7♥\n" +
+            "8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦  3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦\n" +
+            "Draw: J♦, Q♦", t1.toString());
+  }
+
+  //test that triangle with 7 rows prints correctly
+  @Test
+  public void triangle7() {
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 7, 2);
+    PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
+    assertEquals("            A♠          2♠          3♠\n" +
+            "          4♠  5♠      6♠  7♠      8♠  9♠\n" +
+            "        10♠ J♠  Q♠  K♠  A♥  2♥  3♥  4♥  5♥\n" +
+            "      6♥  7♥  8♥  9♥  10♥ J♥  Q♥  K♥  A♦  2♦\n" +
+            "    3♦  4♦  5♦  6♦  7♦  8♦  9♦  10♦ J♦  Q♦  K♦\n" +
+            "  A♣  2♣  3♣  4♣  5♣  6♣  7♣  8♣  9♣  10♣ J♣  Q♣\n" +
+            "K♣  A♠  2♠  3♠  4♠  5♠  6♠  7♠  8♠  9♠  10♠ J♠  Q♠\n" +
+            "Draw: K♠, A♥", t1.toString());
+  }
+
+  //test that triangle with 5 rows prints correctly
+  @Test
+  public void triangle5() {
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 5, 2);
+    PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
+    assertEquals("        A♠      2♠      3♠\n" +
+            "      4♠  5♠  6♠  7♠  8♠  9♠\n" +
+            "    10♠ J♠  Q♠  K♠  A♥  2♥  3♥\n" +
+            "  4♥  5♥  6♥  7♥  8♥  9♥  10♥ J♥\n" +
+            "Q♥  K♥  A♦  2♦  3♦  4♦  5♦  6♦  7♦\n" +
+            "Draw: 8♦, 9♦", t1.toString());
+  }
+
+  //test that triangle with 3 rows prints correctly
+  @Test
+  public void triangle3() {
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 3, 2);
+    PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
+    assertEquals("    A♠  2♠  3♠\n" +
+            "  4♠  5♠  6♠  7♠\n" +
+            "8♠  9♠  10♠ J♠  Q♠\n" +
+            "Draw: K♠, A♥", t1.toString());
+  }
+
+  //test that triangle with 2 rows prints correctly
+  @Test
+  public void triangle2() {
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 2, 5);
+    PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
+    assertEquals("  A♠  2♠  3♠\n" +
+            "4♠  5♠  6♠  7♠\n" +
+            "Draw: 8♠, 9♠, 10♠, J♠, Q♠", t1.toString());
+  }
+
+  //test that triangle with 1 row prints correctly
+  @Test
+  public void triangle1() {
+    initData();
+    ex1.startGame(ex1.getDeck(), false, 1, 3);
+    PyramidSolitaireTextualView t1 = new PyramidSolitaireTextualView(ex1);
+    assertEquals("A♠\n" +
+            "Draw: 2♠, 3♠, 4♠", t1.toString());
   }
 
   //tests game over when no moves are left
@@ -653,17 +705,10 @@ public class TripeaksPyramidSolitaireTest {
     initData();
     List<Card> deck = ex1.getDeck();
     System.out.println(deck.size());
-    ex1.startGame(deck, false, 8, 5);
-    ex1.discardDraw(0);
-    ex1.discardDraw(1);
-    ex1.discardDraw(2);
-    ex1.discardDraw(0);
-    ex1.discardDraw(1);
-    ex1.discardDraw(3);
-    ex1.discardDraw(4);
-    ex1.remove(8, 2);
-    ex1.remove(8, 1, 8, 3);
-    ex1.remove(8, 0, 8, 4);
+    ex1.startGame(deck, false, 1, 1);
+    for (int i = 0; i < 103; i++) {
+      ex1.discardDraw(0);
+    }
     assertTrue(ex1.isGameOver());
   }
 
